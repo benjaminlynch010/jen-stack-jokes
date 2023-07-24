@@ -61,7 +61,7 @@ $('#outputDiv').empty()
 for (let joke of jokesArray) {
   console.log('in for loop') 
   $('#outputDiv').append(`
-    <li>${joke.whoseJoke} ${joke.jokeQuestion} ${joke.punchLine}
+    <li>${joke.jokesArray} ${joke.jokesArray} ${joke.jokesArray}
   `)
 }
 }
