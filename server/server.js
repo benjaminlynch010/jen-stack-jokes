@@ -34,9 +34,34 @@ let jokes = [
   }
 ];
 
+
 // serve back static files
 app.use(express.static('server/public'));
 
+app.get('/jokes', (req, res) => {
+  console.log('in server, /jokes 😛 jokes array: ', jokes)
+  res.sendStatus(200)
+})
+
+app.post('/jokes', (req, res) => {
+
+  const author = (req.body.inputAuthor)
+  const joke = (req.body.inputQuestion)
+  const punchline = (req.body.inputPunchline)
+  
+  // add new joke to array, as an obj
+  let newJoke = {
+    author,
+    joke,
+    punchline
+  }
+  console.log(newJoke)
+  jokes.unshift(newJoke)
+
+  res.send(jokes)
+})
+
+
 app.listen(PORT, () => {
-  console.log('server running on: ', PORT);
+  console.log('🙉 server running on: ', PORT);
 }); // end spin up server
