@@ -1,67 +1,86 @@
+$( document ).ready( onReady );
 console.log('client.js sourced');
 
-$( document ).ready( onReady );
-
 function onReady() {
-    console.log('DOM ready');
+  console.log('DOM ready');
+  // Display current jokes
+  getJokes()
+  // *** Listeners ***
+  $('#addJokeButton').on('click', handleSubmit)
+} // end onReady
 
-    // click listener
-    $('#addJokeButton').on('click', onSubmit)
-}
+// Global Variables
+let author
+let question
+let punchline
 
-function getJokes() {
-  // GET route
-  $.ajax({
-    method: 'GET',
-    url: '/jokes'
-  }).then((response) => {
-    console.log('getJokes response: ', response)
-    let jokesArray = response
-    render(response)
-  }).catch((error) => {
-    alert('Error sending GET request /jokes')
-  })
-}
+// Object for POST route
+let jokePackage = {}
 
-function onSubmit() {
-  console.log('onSubmit()')
-  // capture input
-  let inputAuthor = $('#whoseJokeIn').val()
-  let inputQuestion = $('#questionIn').val()
-  let inputPunchline = $('#punchlineIn').val()
-  // package input in obj
-  let inputtedJoke = {
-    inputAuthor,
-    inputQuestion,
-    inputPunchline
+function captureInput() {
+  console.log('In captureInput')
+  // Target input IDs & use a getter '.val()' to capture input
+  let author = $('#whoseJokeIn').val()
+  let joke = $('#questionIn').val()
+  let punchline = $('#punchlineIn').val()
+
+  // Package input in an object
+  jokePackage = {
+    whoseJoke: author,
+    jokeQuestion: joke,
+    punchLine: punchline
   }
-  console.log('data to send: ', inputtedJoke)
+} // end captureInput
 
-  // ajax POST request
-    // GET to retrieve latest jokes array
-    // render?
+// When 'Submit' is clicked
+function handleSubmit() {
+  console.log('In handleSubmit')
+  captureInput() 
+  console.log('DATA for POST: ', jokePackage)
 
+  // ajax POST request at /jokes, send jokePackage (new joke input)
   $.ajax({
     method: 'POST',
     url: '/jokes',
-    data: inputtedJoke
+    data: jokePackage
   }).then((response) => {
     console.log('POST 😊')
   }).catch((error) => {
     alert('Error sending POST request /jokes')
     console.log('POST 😭', error)
   })
-}
+  getJokes()
+} // end handleSubmit
 
-function render() {
-  console.log('in render()')
-  // for loop ???
-$('#outputDiv').empty()
+function getJokes() {
+  // GET updated jokes array from server
+  $.ajax({
+    method: 'GET',
+    url: '/jokes'
+  }).then((response) => {
+    console.log('GET response: ', response)
+    let jokesArray = response
+    render(jokesArray)
+  }).catch((error) => {
+    alert('Error sending GET request: /jokes')
+  })
+} // end getJokes
 
-for (let joke of jokesArray) {
-  console.log('in for loop') 
-  $('#outputDiv').append(`
-    <li>${joke.jokesArray} ${joke.jokesArray} ${joke.jokesArray}
-  `)
-}
-}
+function render(array) {
+  console.log('In render')
+  // Clear the DOM for updated jokes from server
+  $('#outputDiv').empty()
+  // for loop to 
+  for (let object of array) {
+    console.log('in for loop') 
+    $('#outputDiv').append(`
+    <div>
+      <h4>
+        <q>${object.jokeQuestion}</q>
+      </h4>
+      <q>${object.punchLine}</q>
+      <p><i>- ${object.whoseJoke}</i><p>
+    </div>
+    `)
+    }
+  } // end render

@@ -5,6 +5,9 @@ const PORT = 5000;
 
 // use bodyParser.urlencoded throughout the app with this:
 app.use(bodyParser.urlencoded({ extended: true }));
+// serve back static files
+app.use(express.static('server/public'));
+
 
 let jokes = [
   {
@@ -35,29 +38,32 @@ let jokes = [
 ];
 
 
-// serve back static files
-app.use(express.static('server/public'));
-
+// GET request, client expecting something back
 app.get('/jokes', (req, res) => {
   console.log('in server, /jokes 😛 jokes array: ', jokes)
-  res.sendStatus(200)
+  // Send jokes array to client
+  res.send(jokes)
 })
 
 app.post('/jokes', (req, res) => {
-
-  const author = (req.body.inputAuthor)
-  const joke = (req.body.inputQuestion)
-  const punchline = (req.body.inputPunchline)
   
-  // add new joke to array, as an obj
+  const author = (req.body.whoseJoke)
+  const joke = (req.body.jokeQuestion)
+  const punchline = (req.body.punchLine)
+  console.log('Req.body:', req.body)
+  // on the client side we're going have to know
+  //  how to use this data & how to parse it
+    // *** Make sure to keep the same labels ***
   let newJoke = {
-    author,
-    joke,
-    punchline
+    whoseJoke: author,
+    jokeQuestion: joke,
+    punchLine: punchline
   }
-  console.log(newJoke)
-  jokes.unshift(newJoke)
-
+  // push new joke to the end of the array, usually best practice
+  console.log('New Joke:', newJoke)
+  jokes.push(newJoke)
+  // Send updated [ jokes ] to client
+  console.log('Jokes Array:', jokes)
   res.send(jokes)
 })
 
@@ -65,3 +71,22 @@ app.post('/jokes', (req, res) => {
 app.listen(PORT, () => {
   console.log('🙉 server running on: ', PORT);
 }); // end spin up server
+
+
+// *** Andrew Notes ***
+  // what js will do is a shortcut
+  // variables have to match keys
+
+// Shortcut Version
+// let newJoke = {
+//   author,
+//   joke,
+//   punchline
+// }
+
+// Long way version of shortcut
+// let newJoke = { 
+//   author: author,
+//   joke: joke,
+//   punchline: punchline
+// }
