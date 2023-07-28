@@ -14,10 +14,10 @@
 
 ##### HTML
 - ✅ source client & server
-- ✅ <form>
-  - ✅ <input> new joke
-  - ✅ <button> add joke
-- ✅ <div> display joke array
+- ✅ form
+  - ✅ inputs for new joke
+  - ✅ button for add joke
+- ✅ display joke array
 
 
 ##### server.js

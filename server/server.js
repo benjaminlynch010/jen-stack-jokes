@@ -73,20 +73,29 @@ app.listen(PORT, () => {
 }); // end spin up server
 
 
-// *** Andrew Notes ***
-  // what js will do is a shortcut
-  // variables have to match keys
+// *** Andrew Object Notes ***
+  // Pull feedback from files & copy to Obsidian!
+  
+// JS will help create an object with the shortcut but...
+// Any declared variables HAVE to exactly match keys
+  // So if someone throws an uppercase "L" in a compound word...
+
+// let author = whoseJoke
+// let joke = jokeQuestion
+// let punchline = punchLine <--- (Hope you caught that L)
 
 // Shortcut Version
 // let newJoke = {
-//   author,
-//   joke,
-//   punchline
+//  author,
+//  joke,
+//  punchline <--- (If you didn't, it'll be hard to find now)
 // }
 
-// Long way version of shortcut
+// Long Way --> I know exactly what the keys are
+// Easier to keep track of paths, esp. while learning
+
 // let newJoke = { 
-//   author: author,
+//   author: whoseJoke,
 //   joke: joke,
-//   punchline: punchline
+//   punchline: punchLine
 // }
